@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Vista</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Weather Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-glow top-glow"></div>
+    <div class="background-glow bottom-glow"></div>
+
+    <div class="app-container">
+        <!-- 1. Application Name -->
+        <header>
+            <h1 class="app-title"><i class="fa-solid fa-cloud-sun-rain"></i> Weather Vista</h1>
+        </header>
+
+        <!-- 2. Search Option -->
+        <div class="search-section">
+            <div class="search-box">
+                <i class="fa-solid fa-location-dot location-icon"></i>
+                <input type="text" id="city-input" placeholder="Enter city name..." value="Delhi">
+                <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+
+        <!-- Weather Display Container -->
+        <div class="weather-content" id="weather-content">
+            
+            <!-- Main Temperature Card -->
+            <div class="main-card">
+                <h2 id="city-name">Delhi, IN</h2>
+                <p id="weather-desc">Light Rain</p>
+                <div class="temp-display">
+                    <i id="main-icon" class="fa-solid fa-cloud-rain"></i>
+                    <span id="temperature">33°C</span>
+                </div>
+            </div>
+
+            <!-- 3. Weather Details Grid -->
+            <div class="details-grid">
+                <div class="detail-card">
+                    <i class="fa-solid fa-droplet icon-humidity"></i>
+                    <div class="detail-info">
+                        <span id="humidity">--%</span>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <i class="fa-solid fa-wind icon-wind"></i>
+                    <div class="detail-info">
+                        <span id="wind-speed">-- km/h</span>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <i class="fa-solid fa-cloud-showers-heavy icon-rain"></i>
+                    <div class="detail-info">
+                        <span id="rain-chance">--%</span>
+                        <p>Rain Chance</p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <i class="fa-solid fa-sun icon-sunrise"></i>
+                    <div class="detail-info">
+                        <span id="sunrise">--:--</span>
+                        <p>Sunrise</p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <i class="fa-solid fa-moon icon-sunset"></i>
+                    <div class="detail-info">
+                        <span id="sunset">--:--</span>
+                        <p>Sunset</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Forecast Section (Yesterday + Next 5 Days) -->
+            <div class="forecast-section">
+                <h3>Yesterday & Next 5 Days</h3>
+                <div class="forecast-container" id="forecast-container">
+                    <!-- Dynamic Forecast Cards JS dwara add hongi -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
