@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0b132b;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background Glowing Effects */
+.background-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+}
+.top-glow {
+    top: 5%;
+    left: 20%;
+    background: #1e6091;
+}
+.bottom-glow {
+    bottom: 5%;
+    right: 20%;
+    background: #7209b7;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.app-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #e0e1dd;
+}
+
+.app-title i {
+    color: #4cc9f0;
+    margin-right: 8px;
+}
+
+/* Search Bar */
+.search-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    padding: 6px 12px 6px 18px;
+    width: 100%;
+}
+
+.location-icon {
+    color: #a0aab2;
+    margin-right: 10px;
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.search-box button {
+    background: #3a86ff;
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-box button:hover {
+    background: #4361ee;
+}
+
+/* Main Temperature Card */
+.main-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-card h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.main-card p {
+    color: #b0c4de;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.temp-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.temp-display i {
+    font-size: 3rem;
+    color: #ffb703;
+}
+
+.temp-display span {
+    font-size: 3.2rem;
+    font-weight: 700;
+}
+
+/* Weather Details Grid */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.detail-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.detail-card i {
+    font-size: 1.5rem;
+}
+
+.icon-humidity { color: #4cc9f0; }
+.icon-wind { color: #90e0ef; }
+.icon-rain { color: #48cae4; }
+.icon-sunrise { color: #ffb703; }
+.icon-sunset { color: #fb8500; }
+
+.detail-info span {
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: block;
+}
+
+.detail-info p {
+    font-size: 0.75rem;
+    color: #a0aab2;
+}
+
+/* Forecast Section */
+.forecast-section h3 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: #e0e1dd;
+}
+
+.forecast-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.forecast-container::-webkit-scrollbar {
+    height: 4px;
+}
+.forecast-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.forecast-card {
+    min-width: 85px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.forecast-card.highlight {
+    background: rgba(67, 97, 238, 0.25);
+    border-color: rgba(67, 97, 238, 0.5);
+}
+
+.forecast-card .day {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.forecast-card i {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    color: #ffb703;
+}
+
+.forecast-card .temp {
+    font-size: 0.85rem;
+    font-weight: bold;
+
+
+}
