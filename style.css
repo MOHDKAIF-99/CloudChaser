@@ -265,3 +265,35 @@ header {
     border-color: #3a86ff;
     transform: translateY(-2px);
 }
+
+.advice-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-left: 4px solid #ffb703;
+    border-radius: 15px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.advice-icon {
+    font-size: 1.5rem;
+    color: #ffb703;
+}
+
+.advice-content h4 {
+    font-size: 0.8rem;
+    color: #a0aab2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#weather-advice {
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-top: 2px;
+    font-weight: 500;
+}
