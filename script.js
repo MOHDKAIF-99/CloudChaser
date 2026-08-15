@@ -164,3 +164,21 @@ cityInput.addEventListener('keyup', (e) => {
 
 // Default Load (Delhi Weather)
 fetchWeatherData('Delhi');
+
+// Smart Advice Generator Function
+function generateSmartAdvice(temp, rainChance, windSpeed) {
+    if (rainChance >= 60) {
+        return "🌧️ Aaj baarish ke asaar bohot zyada hain, bahar nikalte waqt chhata (umbrella) lena na bhoolen!";
+    } else if (rainChance >= 30 && rainChance < 60) {
+        return "🌦️ Halki baarish ho sakti hai, savdhani ke liye raincoat ya umbrella sath rakhein.";
+    } else if (temp >= 38) {
+        return "🔥 Bohot tezz garmi hai! Paani zyada peeyein aur dhoop se bachne ke liye sunglasses pehenen.";
+    } else if (temp <= 12) {
+        return "❄️ Thand kafi zyada hai! Garam kapde pehen kar hi bahar niklein.";
+    } else if (windSpeed >= 25) {
+        return "💨 Tez hawa chal rahi hai, gadi chalate waqt thodi savdhani bartein.";
+    } else {
+        return "😊 Mausam bilkul suhana hai! Outdoor activities ya ghumne ke liye badhiya din hai.";
+    }
+
+}
