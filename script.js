@@ -35,6 +35,60 @@ function generateSmartAdvice(temp, rainChance, windSpeed) {
     }
 }
 
+// Dynamic Background & Animations Controller
+function applyDynamicBackground(weatherCode, isDay) {
+    const body = document.body;
+    const bgEffects = document.getElementById('bg-effects');
+    bgEffects.innerHTML = ''; // Clear previous animations
+    body.className = '';      // Clear previous classes
+
+    // Rain / Heavy Rain / Thunderstorm
+    if (weatherCode >= 51 && weatherCode <= 95) {
+        body.classList.add('theme-rain');
+        createRainAnimation();
+    } 
+    // Night Time
+    else if (isDay === 0) {
+        body.classList.add('theme-night');
+        createStarsAnimation();
+    } 
+    // Cloudy / Foggy Day
+    else if (weatherCode >= 1 && weatherCode <= 48) {
+        body.classList.add('theme-cloudy');
+    } 
+    // Sunny Day
+    else {
+        body.classList.add('theme-sunny');
+    }
+}
+
+// Rain Drops Generator
+function createRainAnimation() {
+    const bgEffects = document.getElementById('bg-effects');
+    for (let i = 0; i < 40; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'raindrop';
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDuration = `${0.4 + Math.random() * 0.4}s`;
+        drop.style.animationDelay = `${Math.random() * 2}s`;
+        bgEffects.appendChild(drop);
+    }
+}
+
+// Twinkling Stars Generator
+function createStarsAnimation() {
+    const bgEffects = document.getElementById('bg-effects');
+    for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDuration = `${1 + Math.random() * 2}s`;
+        star.style.animationDelay = `${Math.random() * 3}s`;
+        bgEffects.appendChild(star);
+    }
+}
+
 // 1. Fetch Coordinates
 async function fetchCoordinates(city) {
     try {
@@ -60,12 +114,12 @@ async function fetchCoordinates(city) {
     }
 }
 
-// 2. Fetch Weather Data
+// 2. Fetch Weather Data (With is_day parameter)
 async function fetchWeatherData(city) {
     const coords = await fetchCoordinates(city);
     if (!coords) return;
 
-    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max&past_days=1&forecast_days=6&timezone=auto`;
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max&past_days=1&forecast_days=6&timezone=auto`;
 
     try {
         const response = await fetch(weatherUrl);
@@ -118,6 +172,9 @@ function updateUI() {
     const sunsetTime = todayDaily.sunset[todayIndex].split('T')[1];
     document.getElementById('sunrise').innerText = sunriseTime;
     document.getElementById('sunset').innerText = sunsetTime;
+
+    // Apply Dynamic Background Theme & Animation
+    applyDynamicBackground(current.weather_code, current.is_day);
 
     // Smart Weather Advice Update
     const adviceText = generateSmartAdvice(current.temperature_2m, rainChance, current.wind_speed_10m);
@@ -174,5 +231,6 @@ cityInput.addEventListener('keyup', (e) => {
     }
 });
 
+
 // Initial Load
-fetchWeatherData('Delhi');
+fetchWeatherData('Delhi'); 
