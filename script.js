@@ -2,12 +2,11 @@ const cityInput = document.getElementById('city-input');
 const searchBtn = document.getElementById('search-btn');
 const unitToggleBtn = document.getElementById('unit-toggle-btn');
 
-// State variables to manage unit and weather data
 let isCelsius = true;
-let currentRawData = null;
-let currentCityName = '';
+let currentWeatherData = null;
+let currentLocationName = '';
 
-// WMO Weather Code Mapper (Code se Icon aur Description lane ke liye)
+// WMO Weather Code Mapper
 function getWeatherCondition(code) {
     if (code === 0) return { desc: 'Clear Sky', icon: 'fa-sun' };
     if (code >= 1 && code <= 3) return { desc: 'Partly Cloudy', icon: 'fa-cloud-sun' };
@@ -19,17 +18,24 @@ function getWeatherCondition(code) {
     return { desc: 'Cloudy', icon: 'fa-cloud' };
 }
 
-// Temperature Convertor Helper Function (°C <-> °F)
-function formatTemperature(celsiusVal) {
-    if (isCelsius) {
-        return `${Math.round(celsiusVal)}°C`;
+// Smart Advice Generator Logic
+function generateSmartAdvice(temp, rainChance, windSpeed) {
+    if (rainChance >= 60) {
+        return "🌧️ Aaj baarish ke asaar bohot zyada hain, bahar nikalte waqt chhata (umbrella) lena na bhoolen!";
+    } else if (rainChance >= 30 && rainChance < 60) {
+        return "🌦️ Halki baarish ho sakti hai, savdhani ke liye raincoat ya umbrella sath rakhein.";
+    } else if (temp >= 38) {
+        return "🔥 Bohot tezz garmi hai! Paani zyada peeyein aur dhoop se bachne ke liye sunglasses pehenen.";
+    } else if (temp <= 12) {
+        return "❄️ Thand kafi zyada hai! Garam kapde pehen kar hi bahar niklein.";
+    } else if (windSpeed >= 25) {
+        return "💨 Tez hawa chal rahi hai, gadi chalate waqt thodi savdhani bartein.";
     } else {
-        const fahrenheitVal = (celsiusVal * 9) / 5 + 32;
-        return `${Math.round(fahrenheitVal)}°F`;
+        return "😊 Mausam bilkul suhana hai! Outdoor activities ya ghumne ke liye badhiya din hai.";
     }
 }
 
-// 1. City Name se Latitude & Longitude fetch karna
+// 1. Fetch Coordinates
 async function fetchCoordinates(city) {
     try {
         const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
@@ -54,52 +60,54 @@ async function fetchCoordinates(city) {
     }
 }
 
-// 2. Open-Meteo API se Weather Data Fetch karna
+// 2. Fetch Weather Data
 async function fetchWeatherData(city) {
     const coords = await fetchCoordinates(city);
     if (!coords) return;
 
-    // past_days=1 (Yesterday ke liye) aur forecast_days=6 (Today + Next 5 Days)
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max&past_days=1&forecast_days=6&timezone=auto`;
 
     try {
         const response = await fetch(weatherUrl);
         const data = await response.json();
 
-        // Save data globally
-        currentRawData = data;
-        currentCityName = coords.name;
-        
-        // Render Screen
-        renderUI();
+        currentWeatherData = data;
+        currentLocationName = coords.name;
+
+        updateUI();
     } catch (error) {
         console.error("Weather API Error:", error);
         alert("Failed to fetch weather forecast.");
     }
 }
 
-// 3. UI Render/Update Logic
-function renderUI() {
-    if (!currentRawData) return;
+// Temperature Conversion Helper
+function formatTemp(tempC) {
+    if (isCelsius) {
+        return `${Math.round(tempC)}°C`;
+    } else {
+        const tempF = (tempC * 9/5) + 32;
+        return `${Math.round(tempF)}°F`;
+    }
+}
 
-    const data = currentRawData;
+// 3. Update UI
+function updateUI() {
+    if (!currentWeatherData) return;
+    const data = currentWeatherData;
 
-    // Set City Name
-    document.getElementById('city-name').innerText = currentCityName;
+    document.getElementById('city-name').innerText = currentLocationName;
 
-    // Current Temp & Weather Condition
     const current = data.current;
     const condition = getWeatherCondition(current.weather_code);
     
-    document.getElementById('temperature').innerText = formatTemperature(current.temperature_2m);
+    document.getElementById('temperature').innerText = formatTemp(current.temperature_2m);
     document.getElementById('weather-desc').innerText = condition.desc;
     document.getElementById('main-icon').className = `fa-solid ${condition.icon}`;
 
-    // Weather Metrics
     document.getElementById('humidity').innerText = `${current.relative_humidity_2m}%`;
     document.getElementById('wind-speed').innerText = `${current.wind_speed_10m} km/h`;
 
-    // Today's Data (Index 0 = Yesterday, Index 1 = Today)
     const todayIndex = 1;
     const todayDaily = data.daily;
 
@@ -111,21 +119,26 @@ function renderUI() {
     document.getElementById('sunrise').innerText = sunriseTime;
     document.getElementById('sunset').innerText = sunsetTime;
 
-    // Forecast List (Yesterday + Today + Next 4 Days)
+    // Smart Weather Advice Update
+    const adviceText = generateSmartAdvice(current.temperature_2m, rainChance, current.wind_speed_10m);
+    const adviceElem = document.getElementById('weather-advice');
+    if (adviceElem) {
+        adviceElem.innerText = adviceText;
+    }
+
+    // Forecast Cards
     const forecastContainer = document.getElementById('forecast-container');
     forecastContainer.innerHTML = '';
 
-    const dailyDates = todayDaily.time;
-
-    dailyDates.forEach((dateStr, index) => {
+    todayDaily.time.forEach((dateStr, index) => {
         const dateObj = new Date(dateStr);
         let dayLabel = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
         
         if (index === 0) dayLabel = 'Yesterday';
         if (index === 1) dayLabel = 'Today';
 
-        const maxTemp = formatTemperature(todayDaily.temperature_2m_max[index]);
-        const minTemp = formatTemperature(todayDaily.temperature_2m_min[index]);
+        const maxTemp = formatTemp(todayDaily.temperature_2m_max[index]);
+        const minTemp = formatTemp(todayDaily.temperature_2m_min[index]);
         const dayCondition = getWeatherCondition(todayDaily.weather_code[index]);
 
         const card = document.createElement('div');
@@ -139,22 +152,21 @@ function renderUI() {
     });
 }
 
-// 4. °C / °F Toggle Button Event Listener
+// Unit Toggle Button Event
 if (unitToggleBtn) {
     unitToggleBtn.addEventListener('click', () => {
-        isCelsius = !isCelsius; // Switch unit
+        isCelsius = !isCelsius;
         unitToggleBtn.innerText = isCelsius ? 'Switch to °F' : 'Switch to °C';
-        renderUI(); // Re-render without hitting API again
+        updateUI();
     });
 }
 
-// Search Button Event
+// Event Listeners
 searchBtn.addEventListener('click', () => {
     const city = cityInput.value.trim();
     if (city) fetchWeatherData(city);
 });
 
-// Enter Key Press Event
 cityInput.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
         const city = cityInput.value.trim();
@@ -162,23 +174,5 @@ cityInput.addEventListener('keyup', (e) => {
     }
 });
 
-// Default Load (Delhi Weather)
+// Initial Load
 fetchWeatherData('Delhi');
-
-// Smart Advice Generator Function
-function generateSmartAdvice(temp, rainChance, windSpeed) {
-    if (rainChance >= 60) {
-        return "🌧️ Aaj baarish ke asaar bohot zyada hain, bahar nikalte waqt chhata (umbrella) lena na bhoolen!";
-    } else if (rainChance >= 30 && rainChance < 60) {
-        return "🌦️ Halki baarish ho sakti hai, savdhani ke liye raincoat ya umbrella sath rakhein.";
-    } else if (temp >= 38) {
-        return "🔥 Bohot tezz garmi hai! Paani zyada peeyein aur dhoop se bachne ke liye sunglasses pehenen.";
-    } else if (temp <= 12) {
-        return "❄️ Thand kafi zyada hai! Garam kapde pehen kar hi bahar niklein.";
-    } else if (windSpeed >= 25) {
-        return "💨 Tez hawa chal rahi hai, gadi chalate waqt thodi savdhani bartein.";
-    } else {
-        return "😊 Mausam bilkul suhana hai! Outdoor activities ya ghumne ke liye badhiya din hai.";
-    }
-
-}
