@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> CloudChaser </title>
+    <title>CloudChaser</title>
     <link rel="stylesheet" href="style.css">
     <!-- FontAwesome for Weather Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Dynamic Background Animations Container -->
+    <div id="bg-effects"></div>
+
     <div class="background-glow top-glow"></div>
     <div class="background-glow bottom-glow"></div>
 
     <div class="app-container">
-        <!-- 1. Application Name -->
+        <!-- Application Title -->
         <header>
-            <h1 class="app-title"><i class="fa-solid fa-cloud-sun-rain"></i> CloudChaser </h1>
+            <h1 class="app-title"><i class="fa-solid fa-cloud-sun-rain"></i> CloudChaser</h1>
         </header>
 
-        <!-- 2. Search Option -->
+        <!-- Search Bar -->
         <div class="search-section">
             <div class="search-box">
                 <i class="fa-solid fa-location-dot location-icon"></i>
@@ -27,24 +30,22 @@
             </div>
         </div>
 
-        <!-- Weather Display Container -->
+        <!-- Weather Main Display -->
         <div class="weather-content" id="weather-content">
             
-           <!-- Main Temperature Card -->
-<div class="main-card">
-    <h2 id="city-name">Delhi, IN</h2>
-    <p id="weather-desc">Light Rain</p>
-    
-    
-    <div class="temp-display">
-        <i id="main-icon" class="fa-solid fa-cloud-rain"></i>
-        <span id="temperature">33°C</span>
-        
-        <button id="unit-toggle-btn" class="toggle-btn">Switch to °F</button>
-    </div>
-</div>
+            <!-- Main Temperature Card -->
+            <div class="main-card">
+                <h2 id="city-name">Delhi, IN</h2>
+                <p id="weather-desc">Light Rain</p>
+                
+                <div class="temp-display">
+                    <i id="main-icon" class="fa-solid fa-cloud-rain"></i>
+                    <span id="temperature">33°C</span>
+                    <button id="unit-toggle-btn" class="toggle-btn">Switch to °F</button>
+                </div>
+            </div>
 
-            <!-- 3. Weather Details Grid -->
+            <!-- Weather Details Grid -->
             <div class="details-grid">
                 <div class="detail-card">
                     <i class="fa-solid fa-droplet icon-humidity"></i>
@@ -87,23 +88,20 @@
                 </div>
             </div>
 
-
             <!-- Smart Weather Advice Card -->
-<div class="advice-card" id="advice-card">
-    <i class="fa-solid fa-lightbulb advice-icon"></i>
-    <div class="advice-content">
-        <h4>Smart Advice</h4>
-        <p id="weather-advice">Mausam ka jaiza liya ja raha hai...</p>
-    </div>
-</div>
+            <div class="advice-card" id="advice-card">
+                <i class="fa-solid fa-lightbulb advice-icon"></i>
+                <div class="advice-content">
+                    <h4>Smart Advice</h4>
+                    <p id="weather-advice">Analyzing weather conditions...</p>
+                </div>
+            </div>
 
-
-
-            <!-- 4. Forecast Section (Yesterday + Next 5 Days) -->
+            <!-- Forecast Section (Yesterday + Next 5 Days) -->
             <div class="forecast-section">
                 <h3>Yesterday & Next 5 Days</h3>
                 <div class="forecast-container" id="forecast-container">
-                    <!-- Dynamic Forecast Cards JS dwara add hongi -->
+                    <!-- Dynamic Cards -->
                 </div>
             </div>
 
