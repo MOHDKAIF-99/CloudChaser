@@ -18,20 +18,20 @@ function getWeatherCondition(code) {
     return { desc: 'Cloudy', icon: 'fa-cloud' };
 }
 
-// Smart Advice Generator Logic
+// English Smart Advice Generator
 function generateSmartAdvice(temp, rainChance, windSpeed) {
     if (rainChance >= 60) {
-        return "🌧️ Aaj baarish ke asaar bohot zyada hain, bahar nikalte waqt chhata (umbrella) lena na bhoolen!";
+        return "🌧️ High chance of rain today! Don't forget to carry an umbrella when stepping out.";
     } else if (rainChance >= 30 && rainChance < 60) {
-        return "🌦️ Halki baarish ho sakti hai, savdhani ke liye raincoat ya umbrella sath rakhein.";
+        return "🌦️ Light rain expected. Keep a raincoat or umbrella handy just in case.";
     } else if (temp >= 38) {
-        return "🔥 Bohot tezz garmi hai! Paani zyada peeyein aur dhoop se bachne ke liye sunglasses pehenen.";
+        return "🔥 Extreme heat today! Stay hydrated and wear sunglasses outdoors.";
     } else if (temp <= 12) {
-        return "❄️ Thand kafi zyada hai! Garam kapde pehen kar hi bahar niklein.";
+        return "❄️ It's quite cold outside! Make sure to wear warm clothes.";
     } else if (windSpeed >= 25) {
-        return "💨 Tez hawa chal rahi hai, gadi chalate waqt thodi savdhani bartein.";
+        return "💨 Strong winds expected today. Exercise caution while driving.";
     } else {
-        return "😊 Mausam bilkul suhana hai! Outdoor activities ya ghumne ke liye badhiya din hai.";
+        return "😊 Pleasant weather today! Perfect time for outdoor activities.";
     }
 }
 
@@ -126,7 +126,7 @@ function updateUI() {
         adviceElem.innerText = adviceText;
     }
 
-    // Forecast Cards
+    // Forecast Cards (Yesterday + Next 5 Days)
     const forecastContainer = document.getElementById('forecast-container');
     forecastContainer.innerHTML = '';
 
@@ -152,7 +152,7 @@ function updateUI() {
     });
 }
 
-// Unit Toggle Button Event
+// Unit Toggle Event Listener
 if (unitToggleBtn) {
     unitToggleBtn.addEventListener('click', () => {
         isCelsius = !isCelsius;
@@ -161,7 +161,7 @@ if (unitToggleBtn) {
     });
 }
 
-// Event Listeners
+// Search Listeners
 searchBtn.addEventListener('click', () => {
     const city = cityInput.value.trim();
     if (city) fetchWeatherData(city);
