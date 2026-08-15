@@ -21,9 +21,5 @@ CloudChaser is a sleek, responsive web application that provides real-time weath
 
 ## 🛠️ Tech Stack
 
-* **Frontend:** HTML5, CSS3 (Flexbox/Grid, Keyframe Animations), JavaScript (Vanilla ES6+)
-* **APIs Used:** 
-  * [Open-Meteo Forecast API](https://open-meteo.com/) (Free, no API Key required)
-  * [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
-* **Icons:** [FontAwesome v6.4.0](https://fontawesome.com/)
+* **Frontend:** HTML5, CSS3 (Flexbox/Grid, Keyframe Animations) .
 ---
